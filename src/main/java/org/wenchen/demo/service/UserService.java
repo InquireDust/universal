@@ -1,7 +1,6 @@
 package org.wenchen.demo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.ChainWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers;
 import com.github.yulichang.toolkit.JoinWrappers;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.wenchen.demo.domain.*;
 import org.wenchen.demo.domain.dto.*;
 import org.wenchen.demo.mapper.TableAMapper;
+import org.wenchen.demo.mapper.TreeTableMapper;
 import org.wenchen.demo.mapper.UserMapper;
 
 import java.util.List;
@@ -23,6 +23,7 @@ import java.util.List;
 public class UserService {
     private final UserMapper userMapper;
     private final TableAMapper tableAMapper;
+    private final TreeTableMapper treeTableMapper;
 
     public UserDTO get(Long id) {
         return userMapper.selectById(id).toDto();
@@ -66,5 +67,9 @@ public class UserService {
         List<User> list = ChainWrappers.lambdaQueryChain(userMapper)
                 .list();
         return userMapper.selectOne(userLambdaQueryWrapper).toDto();
+    }
+
+    public List<TreeTable> noteTree() {
+        return treeTableMapper.noteTree();
     }
 }

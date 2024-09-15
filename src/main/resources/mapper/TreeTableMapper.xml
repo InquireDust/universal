@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wenchen.demo.mapper.TreeTableMapper">
+    <resultMap id="BaseResultMap" type="org.wenchen.demo.domain.TreeTable">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="parent_code" property="parentCode"/>
+    </resultMap>
+    <resultMap id="NodeTreeResult" type="org.wenchen.demo.domain.TreeTable"
+               extends="BaseResultMap">
+        <collection property="childNode" column="code" ofType="org.wenchen.demo.domain.TreeTable"
+                    javaType="java.util.ArrayList" select="nextNoteTree">
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        code,
+        `name`,
+        parent_code
+    </sql>
+
+    <select id="nextNoteTree" resultMap="NodeTreeResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tree_table
+        where parent_code = #{code}
+    </select>
+    <select id="noteTree" resultMap="NodeTreeResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tree_table
+        where parent_code = '0'
+    </select>
+</mapper>

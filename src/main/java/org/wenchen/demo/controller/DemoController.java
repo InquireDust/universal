@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.wenchen.demo.domain.TreeTable;
 import org.wenchen.demo.domain.User;
 import org.wenchen.demo.domain.dto.TableADTO;
 import org.wenchen.demo.domain.dto.UserDTO;
@@ -49,6 +50,11 @@ public class DemoController {
     @GetMapping("/getDto")
     public UserDTO selectUserWithAddress() {
         return userService.selectUserWithAddress();
+    }
+
+    @GetMapping("/test3")
+    public List<TreeTable> test3() {
+        return userService.noteTree();
     }
 
 }

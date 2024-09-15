@@ -1,5 +1,8 @@
 package org.wenchen.demo.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.ChainWrapper;
+import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers;
 import com.github.yulichang.toolkit.JoinWrappers;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,7 @@ public class UserService {
         return userMapper.selectById(id).toDto();
     }
 
-    public List<UserDTO> list() {
+    public List<UserDTO> joinList() {
         return JoinWrappers.lambda(User.class)
                 .selectAll(User.class)
                 .selectAs(Address::getAddress, UserDTO::getAddress)
@@ -34,7 +37,7 @@ public class UserService {
                 .list(UserDTO.class);
     }
 
-    public List<TableADTO> list2() {
+    public List<TableADTO> selectCollection() {
         MPJLambdaWrapper<TableA> wrapper = new MPJLambdaWrapper<TableA>()
                 .selectAll(TableA.class)
                 .selectCollection(TableB.class, TableADTO::getBList, b -> b
@@ -49,5 +52,19 @@ public class UserService {
         List<TableADTO> dtos = tableAMapper.selectJoinList(TableADTO.class, wrapper);
         System.out.println(dtos);
         return dtos;
+    }
+
+    public UserDTO selectUserWithAddress() {
+        return userMapper.selectUserWithAddress(1L);
+    }
+
+    public UserDTO test() {
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(true,User::getId, 1L)
+                .eq(true,User::getName,"wenchen")
+                .eq(true,User::getAge,18);
+        List<User> list = ChainWrappers.lambdaQueryChain(userMapper)
+                .list();
+        return userMapper.selectOne(userLambdaQueryWrapper).toDto();
     }
 }

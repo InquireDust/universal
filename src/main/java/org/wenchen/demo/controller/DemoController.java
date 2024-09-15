@@ -28,12 +28,12 @@ public class DemoController {
 
     @GetMapping("/list")
     public List<UserDTO> get2() {
-        return userService.list();
+        return userService.joinList();
     }
 
     @GetMapping("/list2")
     public List<TableADTO> test2() {
-        return userService.list2();
+        return userService.selectCollection();
     }
 
     @GetMapping("/test")
@@ -44,6 +44,11 @@ public class DemoController {
         user.setAge(18);
         user.setEmail("wenchen@qq.com");
         return user.toDto();
+    }
+
+    @GetMapping("/getDto")
+    public UserDTO selectUserWithAddress() {
+        return userService.selectUserWithAddress();
     }
 
 }

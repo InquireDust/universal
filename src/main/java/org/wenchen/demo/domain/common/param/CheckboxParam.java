@@ -1,4 +1,4 @@
-package org.wenchen.demo.domain.param;
+package org.wenchen.demo.domain.common.param;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class PropertyCheckboxParam {
+public class CheckboxParam {
 
     private Long id;
 

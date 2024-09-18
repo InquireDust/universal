@@ -1,4 +1,4 @@
-package org.wenchen.demo.domain.dto;
+package org.wenchen.demo.domain.common.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

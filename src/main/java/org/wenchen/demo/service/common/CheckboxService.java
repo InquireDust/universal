@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.wenchen.demo.domain.common.Checkbox;
-import org.wenchen.demo.mapper.CheckboxManager;
 
 import java.util.HashMap;
 import java.util.List;

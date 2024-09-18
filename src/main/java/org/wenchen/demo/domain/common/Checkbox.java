@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.wenchen.demo.convert.CheckboxConvert;
-import org.wenchen.demo.domain.dto.PropertyCheckboxDto;
-import org.wenchen.demo.domain.param.PropertyCheckboxParam;
+import org.wenchen.demo.convert.commen.CheckboxConvert;
+import org.wenchen.demo.domain.common.dto.CheckboxDto;
+import org.wenchen.demo.domain.common.param.CheckboxParam;
 import org.wenchen.demo.function.EntityBaseFunction;
 
 /**
@@ -20,12 +20,12 @@ import org.wenchen.demo.function.EntityBaseFunction;
 @Data
 @TableName("checkbox")
 @Accessors(chain = true)
-public class Checkbox extends MultiValue implements EntityBaseFunction<PropertyCheckboxDto> {
+public class Checkbox extends MultiValue implements EntityBaseFunction<CheckboxDto> {
 
     /**
      * 创建对象
      */
-    public static Checkbox init(PropertyCheckboxParam in) {
+    public static Checkbox init(CheckboxParam in) {
         return CheckboxConvert.CONVERT.convert(in);
     }
 
@@ -33,7 +33,7 @@ public class Checkbox extends MultiValue implements EntityBaseFunction<PropertyC
      * 转换成dto
      */
     @Override
-    public PropertyCheckboxDto toDto() {
+    public CheckboxDto toDto() {
         return CheckboxConvert.CONVERT.convert(this);
     }
 }

@@ -1,4 +1,4 @@
-package org.wenchen.demo.domain.dto;
+package org.wenchen.demo.domain.common.dto;
 
 
 import lombok.Data;
@@ -7,13 +7,14 @@ import lombok.experimental.Accessors;
 
 /**
  * ${comments}
+ *
  * @author 超级管理员
  * @date 2024-09-12
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class PropertyCheckboxDto extends BaseDto {
+public class CheckboxObjDto extends BaseDto {
 
     private Long tenantId;
     private Long refId;

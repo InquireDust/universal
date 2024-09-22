@@ -57,4 +57,9 @@ public class DemoController {
         return userService.noteTree();
     }
 
+    @GetMapping("/test4")
+    public UserDTO test4() {
+        return new UserDTO();
+    }
+
 }

@@ -19,4 +19,12 @@ public class UserDTO {
 
     private String city;
     private String address;
+
+    public String getStudent() {
+        StringBuilder stu = new StringBuilder("student---");
+        for (int i = 0; i < 10; i++) {
+            stu.append("*");
+        }
+        return stu.toString();
+    }
 }

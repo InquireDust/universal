@@ -1,23 +1,21 @@
 package org.wenchen.demo.controller;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.wenchen.demo.domain.Person;
+import org.wenchen.demo.domain.dto.ElectricSignDto;
 import org.wenchen.demo.service.CommonTestServer;
 import org.wenchen.demo.util.EasyPoiUtils;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +29,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PoiController {
     private final CommonTestServer commonTestServer;
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> export() {
+        return commonTestServer.export();
+    }
+
+    @PostMapping("/inportfile")
+    public void exportCheckbox(@RequestParam("file") MultipartFile file) throws Exception {
+//        List<ElectricSignDto> signList = EasyPoiUtils.importExcel(file, ElectricSignDto.class);
+        // 设置导入参数
+        ImportParams params = new ImportParams();
+        // 使用 EasyPoi 进行导入，将 Excel 转换为对象列表
+        List<Object> importExcel = ExcelImportUtil.importExcel(file.getInputStream(), ElectricSignDto.class, null);
+        System.out.println(importExcel);
+    }
 
     @GetMapping("/easypoi/out")
     public void out(HttpServletResponse response) {

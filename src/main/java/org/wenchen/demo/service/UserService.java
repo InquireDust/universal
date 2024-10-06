@@ -46,7 +46,7 @@ public class UserService {
                                 .collection(TableD.class, TableCDTO::getDList, d -> d
                                         .collection(TableE.class, TableDDTO::getEList))))
                 .leftJoin(TableB.class, TableB::getAid, TableA::getId)
-                .leftJoin(TableC.class, TableC::getBid, TableB::getId)
+                .leftJoin(TableC.class, "sdf",TableC::getBid,"dsfg", TableB::getId)
                 .leftJoin(TableD.class, TableD::getCid, TableC::getId)
                 .leftJoin(TableE.class, TableE::getDid, TableD::getId);
 

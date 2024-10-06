@@ -5,9 +5,14 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.FileUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.wenchen.demo.code.CheckboxConstants;
@@ -20,6 +25,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -258,5 +264,23 @@ public class CommonTestServer {
         // 输出到客户端
         workbook.write(response.getOutputStream());
         workbook.close();
+    }
+
+
+    public ResponseEntity<byte[]> export() {
+        try {
+            // 获取文件,并返回给浏览器
+            File file = ResourceUtils.getFile("classpath:签约电动导出模板.xlsx");
+            byte[] fileContent = FileUtil.readBytes(file);
+            // 设置响应头，告诉浏览器这是一个附件文件
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentLength(fileContent.length);
+            headers.setContentDispositionFormData("attachment", new String((file.getName()).getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            // 返回文件字节数组
+            return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

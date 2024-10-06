@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('构建') {
+        stage('运行') {
             steps {
                 sh 'java -jar ./target/*.jar'
             }

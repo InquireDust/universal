@@ -9,6 +9,7 @@ pipeline {
                 echo '开始构建'
                 sh 'mkdir -p /var/jenkins_home/repository'
                 sh 'ls -l'
+                sh 'docker rm $(docker ps -aq --filter "ancestor=maven")'
             }
         }
 

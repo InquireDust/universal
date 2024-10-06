@@ -53,7 +53,7 @@ ENTRYPOINT ["java", "-jar", "/*.jar"]'''
             steps {
                 // 假设 JAR 文件在 target 目录下
                 dir('demo') {
-                    sh 'rm -rf ./'
+                    sh 'rm -rf .'
                 }
             }
         }

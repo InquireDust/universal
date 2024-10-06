@@ -16,7 +16,7 @@ pipeline {
                 withDockerContainer('maven') {
                     // docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests
 
-                    sh 'mvn clean package -T 1C -DskipTests'
+                    sh 'mvn -v /var/mvn/:/root/.m2/repository clean package -T 1C -DskipTests'
                     sh 'ls ./target -al'
                     sh 'ls -al'   
                     sh 'ls target@tmp -al' 

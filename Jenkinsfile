@@ -12,7 +12,8 @@ pipeline {
 
         stage('构建') {
             steps {
-                sh 'docker run --rm maven -v /etc/maven/settings.xml:/root/.m2/settings.xml maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
+                // sh 'docker run --rm maven -v /etc/maven/settings.xml:/root/.m2/settings.xml maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
+                sh 'docker run -v /etc/maven/settings.xml:/root/.m2/settings.xml maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
             }
         }
 

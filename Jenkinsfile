@@ -18,7 +18,7 @@ pipeline {
                     // docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests
                      sh 'ls -al'
                      sh 'ls script -al'
-                    sh 'mvn -s script/settings.xml -Dmaven.repo.local=/var/jenkins_home/repository clean package -T 1C -DskipTests'
+                    sh 'mvn -s script/settings.xml -Dmaven.repo.local=/var/jenkins_home/repository clean package -T 2C -DskipTests'
                     sh 'ls ./target -al'
                     sh 'ls -al'   
                     sh 'ls target@tmp -al' 

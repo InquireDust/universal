@@ -11,18 +11,6 @@ pipeline {
             }
         }
 
-//         stage('构建') {
-//             steps {
-//                 // sh 'docker run --rm maven -v /etc/maven/settings.xml:/root/.m2/settings.xml maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
-//                 // sh 'docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests' // 使用与 CPU 核心数相同的线程数
-//                 sh '''docker run -v /var/jenkins_home/workspace/jar:/usr/src/demo \
-//            -v /var/mvn/:/root/.m2/repository \
-//            -v /etc/maven/settings.xml:/root/.m2/settings.xml \
-//            -w /usr/src/demo \
-//            maven mvn clean package -T 1C -DskipTests -X'''
-//             }
-//         }
-
         stage('构建') {
             steps {
                 withDockerContainer('maven') {
@@ -33,17 +21,17 @@ pipeline {
             }
         }
 
-
         stage('部署') {
             steps {
                 // 假设将 JAR 文件部署到 Docker 容器中
-                dir('target') {
+                dir('./target') {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
                               text: '''FROM openjdk:11-jre
 COPY *.jar /app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]'''
                     sh 'cat Dockerfile'
+                    sh 'ls -al'
                     sh 'docker build -t jar-app:latest .'
                     sh 'docker rm -f jar-app || true' // 停止并删除已有容器
                     sh 'docker run -d -p 8899:6789 --name jar-app jar-app:latest'

@@ -11,15 +11,23 @@ pipeline {
             }
         }
 
+//         stage('构建') {
+//             steps {
+//                 // sh 'docker run --rm maven -v /etc/maven/settings.xml:/root/.m2/settings.xml maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
+//                 // sh 'docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests' // 使用与 CPU 核心数相同的线程数
+//                 sh '''docker run -v /var/jenkins_home/workspace/jar:/usr/src/demo \
+//            -v /var/mvn/:/root/.m2/repository \
+//            -v /etc/maven/settings.xml:/root/.m2/settings.xml \
+//            -w /usr/src/demo \
+//            maven mvn clean package -T 1C -DskipTests -X'''
+//             }
+//         }
+
         stage('构建') {
             steps {
-                // sh 'docker run --rm maven -v /etc/maven/settings.xml:/root/.m2/settings.xml maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
-                // sh 'docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests' // 使用与 CPU 核心数相同的线程数
-                sh '''docker run -v /var/jenkins_home/workspace/jar:/usr/src/demo \
-           -v /var/mvn/:/root/.m2/repository \
-           -v /etc/maven/settings.xml:/root/.m2/settings.xml \
-           -w /usr/src/demo \
-           maven mvn clean package -T 1C -DskipTests -X'''
+                withDockerContainer('maven') {
+                    sh 'mvn clean package -T 1C -DskipTests'
+                }
             }
         }
 

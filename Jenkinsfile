@@ -37,7 +37,7 @@ pipeline {
                 dir('target') {
                     sh 'ls -al'
                     // 这里可以将 JAR 文件打包成 tar.gz，如果需要的话
-                    sh 'tar -zcvf app.tar.gz demo-0.0.1-SNAPSHOT.jar'
+                    sh 'tar -zcvf app.tar.gz *.jar'
                     archiveArtifacts artifacts: 'app.tar.gz',
                                      allowEmptyArchive: true,
                                      fingerprint: true,
@@ -54,8 +54,8 @@ pipeline {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
                               text: '''FROM openjdk:11-jre
-COPY demo-0.0.1-SNAPSHOT.jar /app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]'''
+COPY *.jar /app.jar
+ENTRYPOINT ["java", "-jar", "/*.jar"]'''
                     sh 'cat Dockerfile'
                     sh 'docker build -t my-app:latest .'
                     sh 'docker rm -f app || true' // 添加 || true 以避免错误

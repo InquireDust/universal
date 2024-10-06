@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('构建') {
             steps {
-                withDockerContainer('maven') {
+                withDockerContainer('maven:3.8.6-openjdk-11') { // 使用特定版本的 Maven 镜像
                     // 使用 Maven 进行多线程构建
                     sh 'mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
                 }

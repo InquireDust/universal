@@ -19,7 +19,7 @@ public class DemoApplication {
 
     public static void main(String[] args) {
         String[] newArgs = args.clone();
-        int defaultPort = 8080;
+        int defaultPort = 6789;
         boolean needChangePort = false;
         int newPort = defaultPort;
 

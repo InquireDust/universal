@@ -8,7 +8,6 @@ pipeline {
                 sh 'docker run maven mvn -v' // 使用与 CPU 核心数相同的线程数
                 echo '开始构建'
                 sh 'ls -l'
-                sh 'cd demo'
             }
         }
 

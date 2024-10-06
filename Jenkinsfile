@@ -9,6 +9,7 @@ pipeline {
                 echo '开始构建'
                 sh 'mkdir -p /var/jenkins_home/repository'
                 sh 'ls -l'
+                sh 'docker rm $(docker ps -aq --filter "ancestor=maven")'
             }
         }
 
@@ -16,8 +17,9 @@ pipeline {
             steps {
                 withDockerContainer('maven') {
                     // docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests
-
-                    sh 'mvn -Dmaven.repo.remote=https://maven.aliyun.com/repository/public -Dmaven.repo.local=/var/jenkins_home/repository clean package -T 1C -DskipTests'
+                     sh 'ls -al'
+                     sh 'ls script -al'
+                    sh 'mvn -s script/settings.xml -Dmaven.repo.local=/var/jenkins_home/repository clean package -T 2C -DskipTests'
                     sh 'ls ./target -al'
                     sh 'ls -al'   
                     sh 'ls target@tmp -al' 
@@ -25,22 +27,30 @@ pipeline {
             }
         }
 
+        //stage('运行') {
+        //    steps {
+        //        sh 'java -jar ./target/*.jar'
+        //    }
+        //}
+        
+
         stage('部署') {
             steps {
-                // 假设将 JAR 文件部署到 Docker 容器中
                 dir('./target') {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
-                              text: '''FROM openjdk:11-jre
-COPY *.* /*
-ENTRYPOINT ["java", "-jar", "/*.jar"]'''
+                            text: '''FROM joohit/jdk-17
+        COPY *.jar /app/app.jar
+        WORKDIR /app
+        ENTRYPOINT ["java", "-jar", "app.jar"]'''
                     sh 'cat Dockerfile'
                     sh 'ls -al'
                     sh 'docker build -t jar-app:latest .'
                     sh 'docker rm -f jar-app || true' // 停止并删除已有容器
-                    sh 'docker run -d -p 8899:6789 --name jar-app jar-app:latest'
+                    sh 'docker run -d -p 8899:8080 --name jar-app jar-app:latest' // 确保这里的端口一致
                 }
             }
         }
+
     }
 }

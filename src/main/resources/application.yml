@@ -3,13 +3,13 @@ spring:
     name: demo
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.117.137:3306/demo?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&allowMultiQueries=true
     username: root
     password: root
   jackson:
     default-property-inclusion: non_empty
 server:
-  port: 6789
+  port: 8080
   shutdown: graceful
 
 # mp配置

@@ -31,21 +31,6 @@ pipeline {
             }
         }
 
-        stage('制品') {
-            steps {
-                // 假设 JAR 文件在 target 目录下
-                dir('target') {
-                    sh 'ls -al'
-                    // 这里可以将 JAR 文件打包成 tar.gz，如果需要的话
-                    sh 'tar -zcvf app.tar.gz *.jar'
-                    archiveArtifacts artifacts: 'app.tar.gz',
-                                     allowEmptyArchive: true,
-                                     fingerprint: true,
-                                     onlyIfSuccessful: true
-                    sh 'ls -al'
-                }
-            }
-        }
 
         stage('部署') {
             steps {
@@ -54,12 +39,12 @@ pipeline {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
                               text: '''FROM openjdk:11-jre
-COPY *.jar /app.jar
+COPY *.jar /*.jar
 ENTRYPOINT ["java", "-jar", "/*.jar"]'''
                     sh 'cat Dockerfile'
-                    sh 'docker build -t my-app:latest .'
-                    sh 'docker rm -f app || true' // 添加 || true 以避免错误
-                    sh 'docker run -d -p 6789:8888 --name app my-app:latest'
+                    sh 'docker build -t jar-app:latest .'
+                    sh 'docker rm -f jar-app || true' // 添加 || true 以避免错误
+                    sh 'docker run -d -p 6789:8888 --name jar-app jar-app:latest'
                 }
             }
         }

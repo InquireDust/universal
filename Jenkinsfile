@@ -4,8 +4,10 @@ pipeline {
     stages {
         stage('构建') {
             steps {
-                // 使用 Maven 进行多线程构建
-                sh 'mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
+                withDockerContainer('maven') {
+                    // 使用 Maven 进行多线程构建
+                    sh 'mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
+                }
             }
         }
 

@@ -20,6 +20,12 @@ pipeline {
                     sh 'mvn -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml clean package -T 1C -DskipTests'
                     sh 'ls ./target -al'
                     sh 'ls -al'   
+                    sh 'ls target@tmp -al' 
+
+                    sh 'mvn clean package -T 1C -DskipTests'
+                    sh 'ls ./target -al'
+                    sh 'ls -al'   
+                    sh 'ls target@tmp -al' 
                 }
             }
         }

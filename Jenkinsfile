@@ -5,6 +5,7 @@ pipeline {
         stage('构建') {
             steps {
                 sh 'docker run maven mvn -v' // 使用与 CPU 核心数相同的线程数
+                echo '开始构建'
                 sh 'docker run maven mvn clean package -T 1C' // 使用与 CPU 核心数相同的线程数
             }
         }

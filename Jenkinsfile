@@ -41,11 +41,11 @@ pipeline {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
                               text: '''FROM openjdk:11-jre
-COPY *.jar /*.jar
-ENTRYPOINT ["java", "-jar", "/*.jar"]'''
+COPY *.jar /app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]'''
                     sh 'cat Dockerfile'
                     sh 'docker build -t jar-app:latest .'
-                    sh 'docker rm -f jar-app || true' // 添加 || true 以避免错误
+                    sh 'docker rm -f jar-app || true' // 停止并删除已有容器
                     sh 'docker run -d -p 6789:8888 --name jar-app jar-app:latest'
                 }
             }

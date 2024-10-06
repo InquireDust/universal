@@ -19,8 +19,10 @@ pipeline {
                     // sh 'mvn -v /var/mvn/:/root/.m2/repository clean package -T 1C -DskipTests'
                     sh '''
                     docker run --rm \
+                        -v /var/jenkins_home/workspace/jar:/usr/src/demo \
                         -v /var/mvn/:/root/.m2/repository \
                         -v /etc/maven/settings.xml:/root/.m2/settings.xml \
+                        -w /usr/src/demo \
                         maven mvn clean package -T 1C -DskipTests
                     '''
                     sh 'ls ./target -al'

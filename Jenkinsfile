@@ -51,5 +51,14 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]'''
                 }
             }
         }
+
+        stage('删除代码') {
+            steps {
+                // 假设 JAR 文件在 target 目录下
+                dir('demo') {
+                    sh 'rm -rf ./'
+                }
+            }
+        }
     }
 }

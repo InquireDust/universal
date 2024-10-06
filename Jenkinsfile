@@ -31,6 +31,7 @@ pipeline {
         //        sh 'java -jar ./target/*.jar'
         //    }
         //}
+        
 
         stage('部署') {
             steps {

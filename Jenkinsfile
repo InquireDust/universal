@@ -47,7 +47,7 @@ pipeline {
                     sh 'ls -al'
                     sh 'docker build -t jar-app:latest .'
                     sh 'docker rm -f jar-app || true' // 停止并删除已有容器
-                    sh 'docker run -d -p 8899:8888 --name jar-app jar-app:latest' // 确保这里的端口一致
+                    sh 'docker run -d -p 8899:8080 --name jar-app jar-app:latest' // 确保这里的端口一致
                 }
             }
         }

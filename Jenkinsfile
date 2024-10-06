@@ -36,20 +36,21 @@ pipeline {
 
         stage('部署') {
             steps {
-                // 假设将 JAR 文件部署到 Docker 容器中
                 dir('./target') {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
-                              text: '''FROM openjdk:11-jre
-COPY *.* /*
-ENTRYPOINT ["java", "-jar", "/*.jar"]'''
+                            text: '''FROM openjdk:11-jre
+        COPY *.jar /app/app.jar
+        WORKDIR /app
+        ENTRYPOINT ["java", "-jar", "app.jar"]'''
                     sh 'cat Dockerfile'
                     sh 'ls -al'
                     sh 'docker build -t jar-app:latest .'
                     sh 'docker rm -f jar-app || true' // 停止并删除已有容器
-                    sh 'docker run -d -p 8899:6789 --name jar-app jar-app:latest'
+                    sh 'docker run -d -p 8899:8888 --name jar-app jar-app:latest' // 确保这里的端口一致
                 }
             }
         }
+
     }
 }

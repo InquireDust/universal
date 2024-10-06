@@ -26,11 +26,11 @@ pipeline {
             }
         }
 
-        stage('运行') {
-            steps {
-                sh 'java -jar ./target/*.jar'
-            }
-        }
+        //stage('运行') {
+        //    steps {
+        //        sh 'java -jar ./target/*.jar'
+        //    }
+        //}
 
         stage('部署') {
             steps {

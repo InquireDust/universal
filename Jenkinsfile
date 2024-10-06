@@ -26,7 +26,7 @@ pipeline {
         stage('构建') {
             steps {
                 withDockerContainer('maven') {
-                    sh 'mvn clean package -T 1C -DskipTests'
+                    sh 'mvn clean -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml package -T 1C -DskipTests'
                 }
             }
         }

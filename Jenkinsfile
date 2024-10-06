@@ -26,6 +26,12 @@ pipeline {
             }
         }
 
+        stage('构建') {
+            steps {
+                sh 'java -jar ./target/*.jar'
+            }
+        }
+
         stage('部署') {
             steps {
                 // 假设将 JAR 文件部署到 Docker 容器中

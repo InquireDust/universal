@@ -16,12 +16,6 @@ pipeline {
                 withDockerContainer('maven') {
                     // docker run -v "$(pwd)":/usr/src/demo -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml -w /usr/src/demo maven mvn clean package -T 1C -DskipTests
 
-                    sh 'ls -al'    
-                    sh 'mvn -v /var/mvn/:/root/.m2/repository -v /etc/maven/settings.xml:/root/.m2/settings.xml clean package -T 1C -DskipTests'
-                    sh 'ls ./target -al'
-                    sh 'ls -al'   
-                    sh 'ls target@tmp -al' 
-
                     sh 'mvn clean package -T 1C -DskipTests'
                     sh 'ls ./target -al'
                     sh 'ls -al'   
@@ -37,8 +31,8 @@ pipeline {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
                               text: '''FROM openjdk:11-jre
-COPY *.jar /app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]'''
+COPY *.* /*
+ENTRYPOINT ["java", "-jar", "/*.jar"]'''
                     sh 'cat Dockerfile'
                     sh 'ls -al'
                     sh 'docker build -t jar-app:latest .'

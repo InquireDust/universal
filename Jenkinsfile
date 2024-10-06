@@ -46,7 +46,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]'''
                     sh 'cat Dockerfile'
                     sh 'docker build -t jar-app:latest .'
                     sh 'docker rm -f jar-app || true' // 停止并删除已有容器
-                    sh 'docker run -d -p 6789:8888 --name jar-app jar-app:latest'
+                    sh 'docker run -d -p 8899:6789 --name jar-app jar-app:latest'
                 }
             }
         }

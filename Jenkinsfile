@@ -39,7 +39,7 @@ pipeline {
                 dir('./target') {
                     sh 'ls -al'
                     writeFile file: 'Dockerfile',
-                            text: '''FROM openjdk:11-jre
+                            text: '''FROM joohit/jdk-17
         COPY *.jar /app/app.jar
         WORKDIR /app
         ENTRYPOINT ["java", "-jar", "app.jar"]'''

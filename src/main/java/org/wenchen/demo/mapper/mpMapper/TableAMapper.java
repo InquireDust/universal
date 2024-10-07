@@ -1,4 +1,4 @@
-package org.wenchen.demo.mapper;
+package org.wenchen.demo.mapper.mpMapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;

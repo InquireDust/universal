@@ -3,19 +3,19 @@ spring:
     name: demo
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.117.137:3306/demo?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&allowMultiQueries=true
+    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&allowPublicKeyRetrieval=true&allowMultiQueries=true
     username: root
-    password: root
+    password: 2074536824
   jackson:
     default-property-inclusion: non_empty
 server:
-  port: 8080
+  port: 6789
   shutdown: graceful
 
 # mp配置
 mybatis-plus:
   # 多包名使用 例如 org.dromara.**.mapper,org.xxx.**.mapper
-  mapperPackage: org.wenchen.**.mapper
+  mapperPackage: org.wenchen.mpMapper.**.mapper
   # 对应的 XML 文件位置
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   # 实体扫描，多个package用逗号或者分号分隔
@@ -26,3 +26,14 @@ mybatis-plus:
       # AUTO 自增 NONE 空 INPUT 用户输入 ASSIGN_ID 雪花 ASSIGN_UUID 唯一 UUID
       # 如需改为自增 需要将数据库表全部设置为自增
       idType: ASSIGN_ID
+
+easy-es:
+  enable: true #默认为true,若为false则认为不启用本框架
+  address : 127.0.0.1:9200 # es的连接地址,必须含端口 若为集群,则可以用逗号隔开 例如:127.0.0.1:9200,127.0.0.2:9200
+  keep-alive-millis: 30000 # 心跳策略时间 单位:ms
+  connect-timeout: 5000 # 连接超时时间 单位:ms
+  socket-timeout: 600000 # 通信超时时间 单位:ms
+  request-timeout: 5000 # 请求超时时间 单位:ms
+  connection-request-timeout: 5000 # 连接请求超时时间 单位:ms
+  max-conn-total: 100 # 最大连接数 单位:个
+  max-conn-per-route: 100 # 最大连接路由数 单位:个

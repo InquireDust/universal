@@ -1,5 +1,6 @@
 package org.wenchen.demo;
 
+import org.dromara.easyes.starter.register.EsMapperScan;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +15,8 @@ import java.net.Socket;
 import java.util.Locale;
 
 @SpringBootApplication
-@MapperScan("org.wenchen.demo.mapper")
+@MapperScan("org.wenchen.demo.mapper.mpMapper")
+@EsMapperScan("org.wenchen.demo.mapper.esMapper")
 public class DemoApplication {
 
     public static void main(String[] args) {

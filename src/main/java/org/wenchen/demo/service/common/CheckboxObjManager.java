@@ -4,7 +4,7 @@ package org.wenchen.demo.service.common;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.wenchen.demo.domain.common.CheckboxObj;
-import org.wenchen.demo.mapper.common.CheckboxObjMapper;
+import org.wenchen.demo.mapper.mpMapper.common.CheckboxObjMapper;
 
 /**
  * ${comments}

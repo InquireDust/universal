@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.wenchen.demo.domain.*;
 import org.wenchen.demo.domain.dto.*;
-import org.wenchen.demo.mapper.TableAMapper;
-import org.wenchen.demo.mapper.TreeTableMapper;
-import org.wenchen.demo.mapper.UserMapper;
+import org.wenchen.demo.mapper.mpMapper.TableAMapper;
+import org.wenchen.demo.mapper.mpMapper.TreeTableMapper;
+import org.wenchen.demo.mapper.mpMapper.UserMapper;
 
 import java.util.List;
 

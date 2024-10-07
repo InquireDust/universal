@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.wenchen.demo.domain.Address;
 import org.wenchen.demo.domain.User;
 import org.wenchen.demo.domain.dto.UserDTO;
-import org.wenchen.demo.mapper.UserMapper;
+import org.wenchen.demo.mapper.mpMapper.UserMapper;
 
 import java.util.List;
 

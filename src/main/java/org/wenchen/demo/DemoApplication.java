@@ -5,12 +5,10 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Locale;
 
@@ -19,45 +17,50 @@ import java.util.Locale;
 @EsMapperScan("org.wenchen.demo.mapper.esMapper")
 public class DemoApplication {
 
+    public static boolean autoDisplay = true;
+    // todo 指定启动后的端口
+    public static int defaultPort = 8080;
+
     public static void main(String[] args) {
+        if (autoDisplay) {
+            autuDeplay(args);
+        } else {
+            SpringApplication.run(DemoApplication.class, args);
+        }
+    }
+
+    private static void autuDeplay(String[] args) {
         String[] newArgs = args.clone();
-        int defaultPort = 6789;
         boolean needChangePort = false;
         int newPort = defaultPort;
-
-        // 判断8080端口是否占用
+        // 判断defaultPort端口是否占用
         if (isPortInUse(defaultPort)) {
-            System.out.println("端口8080被占用，正在寻找可用端口...");
-            newPort = findAvailablePort(defaultPort + 1); // 动态查找可用端口
+            System.out.println("端口" + defaultPort + "被占用，正在寻找可用端口...");
+            // 动态查找可用端口
+            newPort = findAvailablePort(defaultPort + 1);
             newArgs = new String[args.length + 1];
             System.arraycopy(args, 0, newArgs, 0, args.length);
             newArgs[args.length] = "--server.port=" + newPort;
             needChangePort = true;
         }
-
         ConfigurableApplicationContext run = SpringApplication.run(DemoApplication.class, newArgs);
 
-        // 如果端口8080被占用并且当前使用的是其他端口，则释放8080并切换回8080端口
+        // 如果端口defaultPort被占用并且当前使用的是其他端口，则释放defaultPort并切换回defaultPort端口
         if (needChangePort) {
             System.out.println("已切换到端口 " + newPort);
-
             try {
                 if (isWindows()) {
                     killPortOnWindows(defaultPort);
                 } else {
                     killPortOnUnix(defaultPort);
                 }
-
                 // 等待端口释放
                 while (isPortInUse(defaultPort)) {
                     Thread.sleep(500);
                 }
-
-                System.out.println("8080端口释放成功");
-
-                // 切换回8080端口
+                System.out.println(defaultPort + "端口释放成功");
+                // 切换回defaultPort端口
                 switchPort(run, defaultPort);
-
             } catch (Exception e) {
                 System.out.println("发生错误：" + e.getMessage());
             }
@@ -66,9 +69,11 @@ public class DemoApplication {
 
     private static boolean isPortInUse(int port) {
         try (Socket socket = new Socket("127.0.0.1", port)) {
-            return true; // 端口被占用
+            // 端口被占用
+            return true;
         } catch (Exception e) {
-            return false; // 端口未占用
+            // 端口未占用
+            return false;
         }
     }
 

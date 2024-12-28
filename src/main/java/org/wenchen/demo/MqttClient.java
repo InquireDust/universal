@@ -6,8 +6,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.mqtt.*;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +22,12 @@ public class MqttClient {
         this.port = port;
     }
 
+//    public static void main(String[] args) throws InterruptedException {
+//        new MqttClient("127.0.0.1", 1883).start();
+//    }
+
     public static void main(String[] args) throws InterruptedException {
-        new MqttClient("127.0.0.1", 1883).start();
+        new MqttClient("106.14.139.85", 1883).start();
     }
 
     public void start() throws InterruptedException {
@@ -56,14 +58,14 @@ public class MqttClient {
             ChannelFuture future = bootstrap.connect(host, port).sync();
             System.out.println("MQTT 客户端成功连接到服务器: " + host + ":" + port);
             Channel channel = future.channel();//.closeFuture().sync().channel();
-            channel.writeAndFlush("hello world");
-            ChannelFuture channelFuture = channel.closeFuture();
-            channelFuture.addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                    log.info("MQTT 客户端已关闭");
-                }
-            });
+            channel.closeFuture().sync();
+//            ChannelFuture channelFuture = channel.closeFuture().sync();
+//            channelFuture.addListener(new ChannelFutureListener() {
+//                @Override
+//                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+//                    log.info("MQTT 客户端已关闭");
+//                }
+//            });
 
         } finally {
             group.shutdownGracefully();
@@ -81,9 +83,9 @@ class MqttClientHandler extends SimpleChannelInboundHandler<MqttMessage> {
         MqttConnectMessage connectMessage = new MqttConnectMessage(
                 new MqttFixedHeader(MqttMessageType.CONNECT, false, MqttQoS.AT_MOST_ONCE, false, 0),
                 new MqttConnectVariableHeader("MQTT", 4, true, true, false, 0, false, false, 60),
-                new MqttConnectPayload("mqtt_client", "test", "密码".getBytes(), "用户名", "密码".getBytes())
+                new MqttConnectPayload("mqtt_client", "test", "willMessage".getBytes(), "admin", "Aa@123456".getBytes())
         );
-
+        ctx.channel().write(connectMessage);
         ctx.writeAndFlush(connectMessage);
         System.out.println("CONNECT 消息已发送，等待服务器响应...");
     }

@@ -60,12 +60,12 @@ public class MqttServer {
             ChannelFuture future = bootstrap.bind(port).sync();
             log.info("MQTT 服务器启动成功，监听端口: {}", port);
             // 关闭等待
-            //future.channel().closeFuture().sync();
-            future.channel().closeFuture().addListener(closeFuture -> {
-                bossGroup.shutdownGracefully();
-                workerGroup.shutdownGracefully();
-                log.info("MQTT 服务器已关闭");
-            });
+            future.channel().closeFuture().sync();
+//            future.sync().channel().closeFuture().addListener(closeFuture -> {
+//                bossGroup.shutdownGracefully();
+//                workerGroup.shutdownGracefully();
+//                log.info("MQTT 服务器已关闭");
+//            });
         } finally {
             if(bossGroup.isShuttingDown()) {
                 bossGroup.shutdownGracefully();

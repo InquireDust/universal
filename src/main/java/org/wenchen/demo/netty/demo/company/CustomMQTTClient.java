@@ -137,6 +137,6 @@ public class CustomMQTTClient {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, 10, TimeUnit.SECONDS); // 每 10 秒发布一次消息
+        }, 0, 1, TimeUnit.MILLISECONDS); // 每 10 秒发布一次消息
     }
 }

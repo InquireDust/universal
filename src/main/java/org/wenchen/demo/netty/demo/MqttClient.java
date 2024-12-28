@@ -1,4 +1,4 @@
-package org.wenchen.demo;
+package org.wenchen.demo.netty.demo;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
